@@ -20,6 +20,8 @@ import { cilLockLocked, cilUser } from '@coreui/icons'
 import axios from 'axios';
 import DefaultLayout from 'src/layout/DefaultLayout'
 
+import AuthService from 'src/services/auth.service'
+
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -30,13 +32,22 @@ const Login = () => {
   };
 
   const authenticateUser = ()=> {
-    axios.post('http://localhost:3000/users/login', credentials)
-    .then((res)=> {
-      console.log(res.data);
-      if (res.data.success) {
-        window.location = '/_dashboard'
-      }
+    // axios.post('http://localhost:3000/users/login', credentials)
+    // .then((res)=> {
+    //   console.log(res.data);
+    //   if (res.data.success) {
+    //     window.location = '/_dashboard'
+    //   }
+    // })
+
+    AuthService.login(username, password)
+    .then(() => {
+      window.location = '/_dashboard'
+    }, 
+    error => {
+      console.log("Something went wrong");
     })
+
   }
 
   return (
